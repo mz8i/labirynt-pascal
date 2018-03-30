@@ -1,4 +1,4 @@
-uses crt, graph;
+uses crt, ptcgraph;
 
 var
 
@@ -32,8 +32,8 @@ var
 
 //  GRAFIKA-ZMIENNE
 
-  x, y, a, b,
-  sterownik, tryb        :integer;
+  x, y, a, b             :integer;
+  sterownik, tryb        :SmallInt;
 
   tekst, tekst1          :string;
 
@@ -692,6 +692,7 @@ begin
 end;
 
 procedure wejscie_south;{animacja wejscia do sali przez poludniowe drzwi}
+  var i:integer;
 begin
 
   zero;
@@ -703,8 +704,9 @@ begin
   so:=1;
   losuj_wroga;
 
-  for posy[1]:= y+250 downto y+240 do
+  for i := y+250 downto y+240 do
   begin
+    posy[1]:= i;
     gracz;
     south;
     delay(20);
@@ -716,6 +718,7 @@ end;
 
 
 procedure wejscie_north;{animacja wejscia do sali przez polnocne drzwi}
+  var i:integer;
 begin
 
   zero;
@@ -727,8 +730,9 @@ begin
   no:=1;
   losuj_wroga;
 
-  for posy[1]:= y-250 to y-240 do
+  for i:= y-250 to y-240 do
   begin
+    posy[1] := i;
     gracz;
     north;
     delay(20);
@@ -740,7 +744,9 @@ end;
 
 
 procedure wejscie_west;{animacja wejscia do sali przez zachodnie drzwi}
+  var i:integer;
 begin
+
 
   zero;
   nr:=1;
@@ -751,8 +757,9 @@ begin
   we:=1;
   losuj_wroga;
 
-  for posx[1]:= x-250 to x-240 do
+  for i:= x-250 to x-240 do
   begin
+    posx[1] := i;
     gracz;
     west;
     delay(20);
@@ -764,7 +771,9 @@ end;
 
 
 procedure wejscie_east;{animacja wejscia do sali przez wschodnie drzwi}
-begin
+
+  var i:integer;
+  begin
 
   zero;
   nr:=1;
@@ -775,8 +784,9 @@ begin
   ea:=1;
   losuj_wroga;
 
-  for posx[1]:= x+250 downto x+240 do
+  for i:= x+250 downto x+240 do
   begin
+    posx[1] := i;
     gracz;
     east;
     delay(20);
