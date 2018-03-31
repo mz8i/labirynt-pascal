@@ -45,7 +45,9 @@ var
 
 //  KOLIZJA-ZMIENNE
 
-  pozycja                :array [350..930, 222..802] of record
+  // plansza                :array [350..930, 222..802] of record
+  plansza                :array [-290..290, -290..290] of record
+  
     kolizja, drzwi,
     postac, hi           :integer;
   end;
@@ -56,8 +58,7 @@ var
 
 procedure hud;{statystyki, oprawa graficzna menu}
 
-var y                      :integer;
-
+var 
     atak_string, blok_string,
     zycie_string, pd_string,
     szybkosc_string,
@@ -128,11 +129,11 @@ procedure gracz;{kolko zielone ze wspolrzednymi gracza}
 begin;
   setcolor(strona[nr]);
   setfillstyle(solidfill,strona[nr]);
-  fillellipse(posx[nr],posy[nr],r[nr],r[nr]);
-  pozycja[posx[nr],posy[nr]].kolizja:=1;
-  pozycja[posx[nr],posy[nr]].postac:=nr;
+  fillellipse(x+posx[nr],y+posy[nr],r[nr],r[nr]);
+  plansza[posx[nr],posy[nr]].kolizja:=1;
+  plansza[posx[nr],posy[nr]].postac:=nr;
   setcolor(white);
-  outtextxy(posx[nr]-3,posy[nr]-3,nazwa[nr]);
+  outtextxy(x+posx[nr]-3,y+posy[nr]-3,nazwa[nr]);
 end;
 
 
@@ -140,9 +141,9 @@ procedure gracz1;{kolko czarne ze wspolrzednymi gracza}
 begin
   setcolor(black);
   setfillstyle(emptyfill,black);
-  fillellipse(posx[nr],posy[nr],r[nr],r[nr]);
-  pozycja[posx[nr],posy[nr]].kolizja:=0;
-  pozycja[posx[nr],posy[nr]].postac:=0;
+  fillellipse(x+posx[nr],y+posy[nr],r[nr],r[nr]);
+  plansza[posx[nr],posy[nr]].kolizja:=0;
+  plansza[posx[nr],posy[nr]].postac:=0;
 end;
 
 
@@ -152,8 +153,8 @@ begin
   setcolor(white);
   line(x-250,y+250,x+250,y+250);
   rectangle(x-30,y+245,x+30,y+255);
-  b:=y+260;
-  for a:=x-30 to x+30 do pozycja[a,b].drzwi:=1;
+  b:=260;
+  for a:=-30 to 30 do plansza[a,b].drzwi:=1;
 end;
 
 procedure north;{rysunek drzwi polnocnych}
@@ -162,8 +163,8 @@ begin
   setcolor(white);
   line(x-250,y-250,x+250,y-250);
   rectangle(x-30,y-255,x+30,y-245);
-  b:=y-260;
-  for a:=x-30 to x+30 do pozycja[a,b].drzwi:=1;
+  b:=-260;
+  for a:=-30 to 30 do plansza[a,b].drzwi:=1;
 end;
 
 
@@ -173,8 +174,8 @@ begin
   setcolor(white);
   line(x-250,y-250,x-250,y+250);
   rectangle(x-255,y-30,x-245,y+30);
-  a:=x-260;
-  for b:=y-30 to y+30 do pozycja[a,b].drzwi:=1;
+  a:=-260;
+  for b:=-30 to 30 do plansza[a,b].drzwi:=1;
 end;
 
 
@@ -184,8 +185,8 @@ begin
   setcolor(white);
   line(x+250,y-250,x+250,y+250);
   rectangle(x+245,y-30,x+255,y+30);
-  a:=x+260;
-  for b:=y-30 to y+30 do pozycja[a,b].drzwi:=1;
+  a:=260;
+  for b:=-30 to 30 do plansza[a,b].drzwi:=1;
 end;
 
 
@@ -197,9 +198,9 @@ begin
   rectangle(x-25,y-80,x+25,y+80);
   rectangle(x-60,y-70,x-35,y+70);
   rectangle(x+35,y-70,x+60,y+70);
-  for a:=x-65 to x-29 do for b:=y-70 to y+70 do pozycja[a,b].hi:=1;
-  for a:=x+29 to x+65 do for b:=y-70 to y+70 do pozycja[a,b].hi:=1;
-  for a:=x-29 to x+29 do for b:=y-80 to y+80 do pozycja[a,b].hi:=2;
+  for a:=-65 to -29 do for b:=-70 to 70 do plansza[a,b].hi:=1;
+  for a:=+29 to +65 do for b:=-70 to 70 do plansza[a,b].hi:=1;
+  for a:=-29 to +29 do for b:=-80 to 80 do plansza[a,b].hi:=2;
 end;
 
 
@@ -244,17 +245,18 @@ end;
 procedure zeruj_drzwi;
 var a,b:integer;
 begin
-  b:=y-260;
-  for a:=x-30 to x+30 do pozycja[a,b].drzwi:=0;
 
-  b:=y+260;
-  for a:=x-30 to x+30 do pozycja[a,b].drzwi:=0;
+  b:=-260;
+  for a:=-30 to +30 do plansza[a,b].drzwi:=0;
 
-  a:=x-260;
-  for b:=y-30 to y+30 do pozycja[a,b].drzwi:=0;
+  b:=+260;
+  for a:=-30 to +30 do plansza[a,b].drzwi:=0;
 
-  a:=x+260;
-  for b:=y-30 to y+30 do pozycja[a,b].drzwi:=0;
+  a:=-260;
+  for b:=-30 to +30 do plansza[a,b].drzwi:=0;
+
+  a:=+260;
+  for b:=-30 to +30 do plansza[a,b].drzwi:=0;
 end;
 
 
@@ -278,8 +280,8 @@ procedure sala_1;{rysunek sali}
 begin
   north;
   west;
-  a:=x+20;
-  b:=y-40;
+  a:=+20;
+  b:=-40;
   lawa(x+150,y+150);
 
 end;
@@ -290,8 +292,8 @@ begin
   east;
   west;
   south;
-  a:=x+60;
-  b:=y+20;
+  a:=+60;
+  b:=+20;
   lawa(x+150,y+150);
 
 end;
@@ -301,8 +303,8 @@ procedure sala_3;{rysunek sali}
 begin
   south;
   west;
-  a:=x-100;
-  b:=y-40;
+  a:=-100;
+  b:=-40;
   lawa(x+150,y+150);
 
 end;
@@ -313,8 +315,8 @@ begin
   north;
   west;
   east;
-  a:=x-140;
-  b:=y-140;
+  a:=-140;
+  b:=-140;
   lawa(x+150,y+150);
 
 end;
@@ -324,8 +326,8 @@ procedure sala_5;{rysunek sali}
 begin
   east;
   south;
-  a:=x-80;
-  b:=y+60;
+  a:=-80;
+  b:=+60;
   lawa(x+150,y+150);
 
 end;
@@ -335,8 +337,8 @@ procedure sala_6;{rysunek sali}
 begin
   north;
   south;
-  a:=x+40;
-  b:=y;
+  a:=+40;
+  b:=0;
   lawa(x+150,y+150);
 
 end;
@@ -346,8 +348,8 @@ procedure sala_7;{rysunek sali}
 begin
   east;
   west;
-  a:=x+100;
-  b:=y-80;
+  a:=+100;
+  b:=-80;
   lawa(x+150,y+150);
 
 end;
@@ -357,8 +359,8 @@ procedure sala_8;{rysunek sali}
 begin
   north;
   west;
-  a:=x;
-  b:=y;
+  a:=0;
+  b:=0;
   lawa(x+150,y+150);
 
 end;
@@ -417,29 +419,29 @@ end;
 procedure zeruj_kolizje;{podstawowa kolizja scian}
 var a,b:integer;
 begin
-  for a:=x-260 to x+260 do
+  for a:=-260 to +260 do
   begin
-    b:=y-260;
-    pozycja[a,b].kolizja:=1;
-    pozycja[a,b].drzwi:=0;
-    b:=y+260;
-    pozycja[a,b].kolizja:=1;
-    pozycja[a,b].drzwi:=0;
+    b:=-260;
+    plansza[a,b].kolizja:=1;
+    plansza[a,b].drzwi:=0;
+    b:=+260;
+    plansza[a,b].kolizja:=1;
+    plansza[a,b].drzwi:=0;
   end;
 
-  for b:=y-260 to y+260 do
+  for b:=-260 to +260 do
   begin
-    a:=x-260;
-    pozycja[a,b].kolizja:=1;
-    pozycja[a,b].drzwi:=0;
-    a:=x+260;
-    pozycja[a,b].kolizja:=1;
-    pozycja[a,b].drzwi:=0;
+    a:=-260;
+    plansza[a,b].kolizja:=1;
+    plansza[a,b].drzwi:=0;
+    a:=+260;
+    plansza[a,b].kolizja:=1;
+    plansza[a,b].drzwi:=0;
   end;
 
-  for a:=x-250 to x+250 do for b:=y-250 to y+250 do
+  for a:=-250 to +250 do for b:=-250 to +250 do
   begin
-    with pozycja[a,b] do
+    with plansza[a,b] do
     begin
       kolizja:=0;
       postac:=0;
@@ -460,7 +462,7 @@ begin
   else if a='a' then posx[nr]:=posx[nr]-20
   else if a='d' then posx[nr]:=posx[nr]+20;
 
-  with pozycja[posx[nr],posy[nr]] do
+  with plansza[posx[nr],posy[nr]] do
   begin
     posz[nr]:=hi;
   end;
@@ -520,12 +522,12 @@ end;
 procedure pozycja_wroga;
 begin
   randomize;
-  repeat until pozycja[a,b].kolizja<>1;
+  repeat until plansza[a,b].kolizja<>1;
   begin
     a:=random(25);
-    a:=a*20+x-240;
+    a:=a*20-240;
     b:=random(25);
-    b:=b*20+y-240;
+    b:=b*20-240;
   end;
 end;
 
@@ -699,12 +701,12 @@ begin
   nr:=1;
   fillpoly(4,sal);
   sala_0;
-  posy[nr]:=y+250;
+  posy[nr]:=+250;
   losuj_sale;
   so:=1;
   losuj_wroga;
 
-  for i := y+250 downto y+240 do
+  for i := +250 downto +240 do
   begin
     posy[1]:= i;
     gracz;
@@ -725,12 +727,12 @@ begin
   nr:=1;
   fillpoly(4,sal);
   sala_0;
-  posy[nr]:=y-250;
+  posy[nr]:=-250;
   losuj_sale;
   no:=1;
   losuj_wroga;
 
-  for i:= y-250 to y-240 do
+  for i:= -250 to -240 do
   begin
     posy[1] := i;
     gracz;
@@ -747,17 +749,16 @@ procedure wejscie_west;{animacja wejscia do sali przez zachodnie drzwi}
   var i:integer;
 begin
 
-
   zero;
   nr:=1;
   fillpoly(4,sal);
   sala_0;
-  posx[nr]:=x-250;
+  posx[nr]:=-250;
   losuj_sale;
   we:=1;
   losuj_wroga;
 
-  for i:= x-250 to x-240 do
+  for i:= -250 to -240 do
   begin
     posx[1] := i;
     gracz;
@@ -779,12 +780,12 @@ procedure wejscie_east;{animacja wejscia do sali przez wschodnie drzwi}
   nr:=1;
   fillpoly(4,sal);
   sala_0;
-  posx[nr]:=x+250;
+  posx[nr]:=+250;
   losuj_sale;
   ea:=1;
   losuj_wroga;
 
-  for i:= x+250 downto x+240 do
+  for i:= +250 downto +240 do
   begin
     posx[1] := i;
     gracz;
@@ -815,7 +816,7 @@ begin
   poziom:=1;
   pd:=0;
   r[1]:=10;
-  posx[1]:=x;
+  posx[1]:=0;
   posz[1]:=0;
   strona[1]:=2;
   obok:=0;
@@ -1020,7 +1021,7 @@ procedure sprawdz_w;{sprawdzenie kolizji na polnoc od gracza}
 begin
   gracz1;
 
-  with pozycja[posx[nr],posy[nr]-20] do
+  with plansza[posx[nr],posy[nr]-20] do
   begin
     if kolizja=0 then ruch('w')
 
@@ -1046,7 +1047,7 @@ procedure sprawdz_s;{sprawdzenie kolizji na poludnie od gracza}
 begin
   gracz1;
 
-  with pozycja[posx[nr],posy[nr]+20] do
+  with plansza[posx[nr],posy[nr]+20] do
   begin
 
     if kolizja=0 then ruch('s')
@@ -1071,7 +1072,7 @@ end;
 procedure sprawdz_a;{sprawdzenie kolizji na zachod od gracza}
 begin
   gracz1;
-  with pozycja[posx[nr]-20,posy[nr]] do
+  with plansza[posx[nr]-20,posy[nr]] do
   begin
 
     if kolizja=0 then ruch('a')
@@ -1096,7 +1097,7 @@ end;
 procedure sprawdz_d;{sprawdzenie kolizji na wschod od gracza}
 begin
   gracz1;
-  with pozycja[posx[nr]+20,posy[nr]] do
+  with plansza[posx[nr]+20,posy[nr]] do
   begin
 
     if kolizja=0 then ruch('d')
@@ -1256,15 +1257,35 @@ begin
 end;
 
 
+procedure setup_game_graphics;
+begin
+  sal[1].x := x-275;
+  sal[1].y := y-275;
+
+  sal[2].x := x+275;
+  sal[2].y := y-275;
+
+  sal[3].x := x+275;
+  sal[3].y := y+275;
+  
+  sal[4].x := x-275;
+  sal[4].y := y+275;
+end;
 
 //                 PROGRAMISZCZE
 
 
 begin{cala gra, intro i menu glowne}
   clrscr;
+  sterownik:= D8Bit;
+  tryb := m1024x768;
   initgraph(sterownik,tryb,'');
+  if GraphResult <> grOK then writeln('Rozdzielczosc 1024x768 nie jest obslugiwana!');
   x:=getmaxx div 2;
   y:=getmaxy div 2;
+  setup_game_graphics;
+  
+  wygrana:=0;
   readln;
   intro;
   menu;
