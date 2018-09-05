@@ -375,7 +375,6 @@ end;
 procedure losuj_sale;{losowanie sali}
 begin
   zeruj_wyjscia;
-  randomize;
   sala:=random(diament+1)+1;
   if sala=1 then sala_1;
   if sala=2 then sala_2;
@@ -514,14 +513,12 @@ end;
 
 procedure liczba_wroga;
 begin
-  randomize;
   liczba_w:=1;
 end;
 
 
 procedure pozycja_wroga;
 begin
-  randomize;
   repeat until plansza[a,b].kolizja<>1;
   begin
     a:=random(25);
@@ -666,7 +663,6 @@ procedure rodzaj_wroga;
 var a:integer;
 begin
   writeln('a');
-  randomize;
   a:=random(10)+1;
   if (a>0) and (a<4) then ork
   else if (a>3) and (a<7) then goblin
@@ -939,7 +935,6 @@ procedure obrazenia;
 var a:integer;
     b:string;
 begin
-  randomize;
   rezultat[nr]:=random(9)+1;
   zycie[nr1]:=zycie[nr1]-rezultat[nr];
 
@@ -989,7 +984,6 @@ begin
   akcje:=0;
   mod1;
   gracz;
-  randomize;
   rezultat[nr]:=random(9)+1;
   rezultat[nr]:=rezultat[nr]+atak[nr];
   rezultat[nr1]:=random(9)+1;
@@ -1284,6 +1278,8 @@ begin{cala gra, intro i menu glowne}
   x:=getmaxx div 2;
   y:=getmaxy div 2;
   setup_game_graphics;
+
+  randomize;
   
   wygrana:=0;
   readln;
