@@ -190,17 +190,21 @@ begin
 end;
 
 
-procedure lawa(x, y:integer);{rysunek lawy o wspolrzednych wprowadzanych w nawiasie}
-var a,b:integer;
+procedure lawa(x_lawa, y_lawa:integer);{rysunek lawy o wspolrzednych wprowadzanych w nawiasie}
+var a,b, x_offset, y_offset:integer;
 
 begin
   setcolor(white);
-  rectangle(x-25,y-80,x+25,y+80);
-  rectangle(x-60,y-70,x-35,y+70);
-  rectangle(x+35,y-70,x+60,y+70);
-  for a:=-65 to -29 do for b:=-70 to 70 do plansza[a,b].hi:=1;
-  for a:=+29 to +65 do for b:=-70 to 70 do plansza[a,b].hi:=1;
-  for a:=-29 to +29 do for b:=-80 to 80 do plansza[a,b].hi:=2;
+  x_offset:= x+x_lawa;
+  y_offset := y+y_lawa;
+
+  rectangle(x_offset-25,y_offset-80,x_offset+25,y_offset+80);
+  rectangle(x_offset-60,y_offset-70,x_offset-35,y_offset+70);
+  rectangle(x_offset+35,y_offset-70,x_offset+60,y_offset+70);
+
+  for a:=x_lawa-65 to x_lawa-29 do for b:=y_lawa-70 to y_lawa+70 do plansza[a,b].hi:=1;
+  for a:=x_lawa+29 to x_lawa+65 do for b:=y_lawa-70 to y_lawa+70 do plansza[a,b].hi:=1;
+  for a:=x_lawa-29 to x_lawa+29 do for b:=y_lawa-80 to y_lawa+80 do plansza[a,b].hi:=2;
 end;
 
 
@@ -282,7 +286,7 @@ begin
   west;
   a:=+20;
   b:=-40;
-  lawa(x+150,y+150);
+  lawa(150,150);
 
 end;
 
@@ -294,7 +298,7 @@ begin
   south;
   a:=+60;
   b:=+20;
-  lawa(x+150,y+150);
+  lawa(150,150);
 
 end;
 
@@ -305,7 +309,7 @@ begin
   west;
   a:=-100;
   b:=-40;
-  lawa(x+150,y+150);
+  lawa(150,150);
 
 end;
 
@@ -317,7 +321,7 @@ begin
   east;
   a:=-140;
   b:=-140;
-  lawa(x+150,y+150);
+  lawa(150,150);
 
 end;
 
@@ -328,7 +332,7 @@ begin
   south;
   a:=-80;
   b:=+60;
-  lawa(x+150,y+150);
+  lawa(150,150);
 
 end;
 
@@ -339,7 +343,7 @@ begin
   south;
   a:=+40;
   b:=0;
-  lawa(x+150,y+150);
+  lawa(150,150);
 
 end;
 
@@ -350,7 +354,7 @@ begin
   west;
   a:=+100;
   b:=-80;
-  lawa(x+150,y+150);
+  lawa(150,150);
 
 end;
 
@@ -361,7 +365,7 @@ begin
   west;
   a:=0;
   b:=0;
-  lawa(x+150,y+150);
+  lawa(150,150);
 
 end;
 
